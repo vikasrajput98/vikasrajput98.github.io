@@ -2,164 +2,396 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIKAS RAJPUT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vikas Rajput - The Architect</title>
     <style>
-        * { margin: 0; padding: 0; overflow: hidden; }
-        body {
-            background: #000;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            font-family: 'Arial Black', sans-serif;
-        }
-        canvas { position: absolute; top: 0; left: 0; z-index: 1; }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Syncopate:wght@700&display=swap');
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        .illuminati {
-            width: 250px;
-            height: 250px;
+        body {
+            background-color: #000000;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px; /* 3D Depth for Mobile */
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- BACKGROUND VORTEX --- */
+        #vortexCanvas {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        /* --- MAIN 3D WRAPPER --- */
+        .cosmos-container {
             position: relative;
-            animation: float 6s ease-in-out infinite;
-            z-index: 2;
+            width: 350px; /* Optimized for Mobile width */
+            height: 350px;
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Floating animation for the whole unit */
+            animation: hover-float 6s ease-in-out infinite;
         }
-        .triangle {
-            width: 0;
-            height: 0;
-            border-left: 120px solid transparent;
-            border-right: 120px solid transparent;
-            border-bottom: 200px solid cyan;
-            filter: drop-shadow(0 0 50px cyan) drop-shadow(0 0 100px cyan);
+
+        /* --- RINGS (GYROSCOPIC ENGINE) --- */
+        .ring {
             position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: glow 3s ease-in-out infinite alternate, rotate 30s linear infinite;
-        }
-        .eye {
-            width: 60px;
-            height: 40px;
-            background: black;
             border-radius: 50%;
-            position: absolute;
-            top: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 8px solid white;
-            box-shadow: 0 0 60px white, 0 0 120px cyan;
-            animation: pulse 2s infinite;
+            transform-style: preserve-3d;
+            transform-origin: center center;
         }
-        .eye::before {
+
+        /* 1. THE OUTER REACTOR (Behtareen wala) */
+        .ring-outer {
+            width: 100%; height: 100%;
+            border: 2px solid rgba(212, 175, 55, 0.1); /* Faint gold */
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.05);
+            /* Tech segments */
+            border-top: 4px solid #d4af37; /* Metallic Gold */
+            border-bottom: 4px solid #d4af37;
+            animation: spin-z 20s linear infinite;
+        }
+        .ring-outer::before {
             content: '';
-            width: 25px;
-            height: 25px;
-            background: cyan;
-            border-radius: 50%;
             position: absolute;
-            top: 8px;
-            left: 18px;
-            box-shadow: 0 0 30px cyan;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border-radius: 50%;
+            border: 1px dashed rgba(0, 255, 255, 0.3); /* Cyan hint */
+            animation: spin-z-rev 10s linear infinite;
         }
 
-        h1 {
-            margin-top: 380px;
-            font-size: 4.5rem;
-            color: cyan;
-            text-shadow: 
-                0 0 20px cyan,
-                0 0 40px cyan,
-                0 0 80px cyan,
-                0 0 160px cyan;
-            letter-spacing: 10px;
-            animation: textGlow 2s ease-in-out infinite alternate;
-            z-index: 3;
+        /* 2. X-AXIS ROTATION (Red Danger) */
+        .ring-x {
+            width: 85%; height: 85%;
+            border: 2px solid rgba(255, 0, 60, 0.2);
+            border-left: 4px solid #ff003c;
+            border-right: 4px solid #ff003c;
+            box-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
+            animation: rotate-x 8s linear infinite;
         }
 
-        @keyframes glow { 
-            from { filter: drop-shadow(0 0 50px cyan); }
-            to { filter: drop-shadow(0 0 120px cyan) drop-shadow(0 0 200px cyan); }
+        /* 3. Y-AXIS ROTATION (Cyan Tech) */
+        .ring-y {
+            width: 70%; height: 70%;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-top: 4px solid #00ffff;
+            border-bottom: 4px solid #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            animation: rotate-y 12s linear infinite;
         }
-        @keyframes rotate { from { transform: translateX(-50%) rotate(0deg); } to { transform: translateX(-50%) rotate(360deg); } }
-        @keyframes pulse { 0%,100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.2); } }
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
-        @keyframes textGlow { from { text-shadow: 0 0 20px cyan; } to { text-shadow: 0 0 100px cyan, 0 0 200px cyan; } }
+
+        /* 4. XZ-AXIS DIAGONAL (Nuclear Core) */
+        .ring-xz {
+            width: 60%; height: 60%;
+            border: 3px double rgba(212, 175, 55, 0.5);
+            animation: rotate-xz 5s linear infinite;
+        }
+
+        /* --- THE ILLUMINATI TRIANGLE (Luxury Gold) --- */
+        .triangle-box {
+            position: absolute;
+            width: 160px; height: 160px;
+            transform: translateZ(0px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .triangle-shape {
+            position: absolute;
+            width: 160px; height: 160px;
+            /* Metallic Gradient Background mimicking Gold */
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            clip-path: polygon(50% 5%, 5% 95%, 95% 95%);
+            /* Breathe effect */
+            animation: pulse-gold 3s infinite ease-in-out;
+            z-index: 10;
+        }
+
+        .triangle-inner {
+            position: absolute;
+            width: 154px; height: 154px;
+            background: #000; /* Inner cut */
+            clip-path: polygon(50% 7%, 7% 93%, 93% 93%);
+            z-index: 11;
+            top: 4px; /* Positioning adjustment */
+        }
+
+        /* --- THE EYE (PREDATOR STYLE) --- */
+        .eye-container {
+            position: absolute;
+            z-index: 20;
+            /* Centering logic relative to triangle geometry */
+            top: 60%; left: 50%; 
+            transform: translate(-50%, -50%);
+            width: 50px; height: 30px;
+        }
+
+        .eye-sclera {
+            width: 100%; height: 100%;
+            background: #000;
+            border-radius: 50%;
+            border: 1px solid #d4af37;
+            box-shadow: inset 0 0 10px #ff003c; /* Red internal glow */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pupil-slit {
+            width: 4px; height: 25px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff003c, 0 0 15px #ff003c;
+            animation: pupil-look 5s infinite alternate;
+        }
+
+        /* --- TEXT SECTION (Premium) --- */
+        .identity {
+            margin-top: 50px; /* Space below rings */
+            text-align: center;
+            z-index: 30;
+        }
+
+        .name-main {
+            font-family: 'Syncopate', sans-serif; /* Sci-fi high end font */
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: transparent;
+            background: linear-gradient(to bottom, #fff, #999);
+            -webkit-background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-shadow: 0 10px 20px rgba(0,0,0,1);
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            color: #d4af37;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        /* --- ANIMATION KEYFRAMES --- */
+        @keyframes hover-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes spin-z { 100% { transform: rotateZ(360deg); } }
+        @keyframes spin-z-rev { 100% { transform: rotateZ(-360deg); } }
+        
+        @keyframes rotate-x {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(360deg); }
+        }
+        
+        @keyframes rotate-y {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        /* Complex Diagonal Rotation */
+        @keyframes rotate-xz {
+            0% { transform: rotate3d(1, 1, 0, 0deg); }
+            100% { transform: rotate3d(1, 1, 0, 360deg); }
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 1)); }
+        }
+
+        @keyframes pupil-look {
+            0% { transform: translateX(0) scaleY(1); }
+            20% { transform: translateX(-5px) scaleY(1); }
+            40% { transform: translateX(5px) scaleY(1); }
+            60% { transform: translateX(0) scaleY(0.1); } /* Blink */
+            65% { transform: translateX(0) scaleY(1); }
+            100% { transform: translateX(0) scaleY(1); }
+        }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 600px) {
+            /* Scaling down slightly so rings don't cut off on small phones */
+            .cosmos-container {
+                transform: scale(0.85); 
+                animation: hover-float-mobile 6s ease-in-out infinite; 
+            }
+            /* Adjust text size */
+            .name-main { font-size: 1.8rem; letter-spacing: 4px; }
+            .tagline { font-size: 0.7rem; }
+            
+            @keyframes hover-float-mobile {
+                0%, 100% { transform: scale(0.85) translateY(0); }
+                50% { transform: scale(0.85) translateY(-10px); }
+            }
+        }
+
     </style>
 </head>
 <body>
-    <canvas id="particles"></canvas>
-    
-    <div class="illuminati">
-        <div class="triangle"></div>
-        <div class="eye"></div>
+
+    <!-- Vortex Background from previous request -->
+    <canvas id="vortexCanvas"></canvas>
+
+    <!-- The 3D Engine -->
+    <div class="cosmos-container">
+        
+        <!-- 1. Outer Reactor (Z Axis - Flat) -->
+        <div class="ring ring-outer"></div>
+        
+        <!-- 2. X Axis (Tilted Vertical) -->
+        <div class="ring ring-x"></div>
+
+        <!-- 3. Y Axis (Tilted Horizontal) -->
+        <div class="ring ring-y"></div>
+
+        <!-- 4. Diagonal XZ Axis (Atomic) -->
+        <div class="ring ring-xz"></div>
+
+        <!-- The Illuminati Core -->
+        <div class="triangle-box">
+            <!-- Luxury Gold Triangle -->
+            <div class="triangle-shape"></div>
+            <div class="triangle-inner"></div>
+            
+            <!-- The Eye (Centered) -->
+            <div class="eye-container">
+                <div class="eye-sclera">
+                    <div class="pupil-slit"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
-    
-    <h1>VIKAS RAJPUT</h1>
+
+    <!-- Name Section -->
+    <div class="identity">
+        <div class="name-main">Vikas Rajput</div>
+        <div class="tagline">Supreme Architect</div>
+    </div>
 
     <script>
-        const canvas = document.getElementById('particles');
+        /* --- VORTEX BLACK HOLE BACKGROUND --- */
+        const canvas = document.getElementById('vortexCanvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
 
-        let particlesArray = [];
-        const numberOfParticles = 150;
+        let width, height, centerX, centerY;
+        let particles = [];
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            centerX = width / 2;
+            centerY = height / 2;
+        }
 
         class Particle {
-            constructor(){
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 5 + 1;
-                this.speedX = Math.random() * 1.5 - 0.75;
-                this.speedY = Math.random() * 1.5 - 0.75;
+            constructor() {
+                this.reset(true);
             }
-            update(){
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.size > 0.2) this.size -= 0.01;
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+            reset(initial = false) {
+                // Start from edges if not initial, else random
+                if(initial) {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                } else {
+                    // Logic to spawn at borders
+                    if(Math.random() < 0.5) {
+                        this.x = Math.random() < 0.5 ? 0 : width;
+                        this.y = Math.random() * height;
+                    } else {
+                        this.x = Math.random() * width;
+                        this.y = Math.random() < 0.5 ? 0 : height;
+                    }
+                }
+                this.size = Math.random() * 2;
+                this.speed = Math.random() * 2 + 0.5;
+                // Color Logic: Mix of Gold and Cyan
+                this.color = Math.random() > 0.7 ? '#d4af37' : '#004444';
             }
-            draw(){
-                ctx.fillStyle = 'rgba(0, 255, 255, 0.8)';
-                ctx.strokeStyle = 'cyan';
-                ctx.lineWidth = 2;
+
+            update() {
+                // Calculate vector to center
+                const dx = centerX - this.x;
+                const dy = centerY - this.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                // Move towards center
+                this.x += (dx / distance) * this.speed;
+                this.y += (dy / distance) * this.speed;
+
+                // Spiral effect
+                const angle = Math.atan2(dy, dx);
+                this.x += Math.sin(angle); 
+                this.y -= Math.cos(angle);
+
+                // Grow slightly as they approach center
+                if(distance < 100) {
+                   this.speed += 0.1; // Accelerate into the void
+                   this.size *= 0.95; // Shrink into nothingness
+                }
+
+                // Reset if captured by black hole
+                if (distance < 5) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.stroke();
             }
         }
 
-        function init(){
-            particlesArray = [];
-            for(let i = 0; i < numberOfParticles; i++){
-                particlesArray.push(new Particle());
+        function init() {
+            resize();
+            particles = [];
+            for(let i=0; i<150; i++) {
+                particles.push(new Particle());
             }
         }
-        init();
 
-        function animate(){
-            ctx.fillStyle = 'rgba(0,0,0,0.05)';
-            ctx.fillRect(0,0,canvas.width,canvas.height);
-            for(let i = 0; i < particlesArray.length; i++){
-                particlesArray[i].update();
-                particlesArray[i].draw();
-                if(particlesArray[i].size <= 0.3){
-                    particlesArray.splice(i,1);
-                    i--;
-                    particlesArray.push(new Particle());
-                }
-            }
+        function animate() {
+            // Trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
             requestAnimationFrame(animate);
         }
-        animate();
 
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            resize();
             init();
         });
+
+        init();
+        animate();
     </script>
 </body>
-</html>
+                </html>
